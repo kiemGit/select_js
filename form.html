@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="process.php"> 
+        <label for="dropdown">Select an option:</label> 
+        <select name="dropdown" id="dropdown"> 
+        </select>
+        <input name="locId" id="locId" type="text" placeholder="Location Id" required>
+        <input name="locName" id="locName" type="text" placeholder="Location Name" required>
+        <input type="submit" value="Submit"> 
+    </form> 
+    <script type="text/javascript">
+
+        fetch("http://192.168.0.19:8007/php/select.php").then(function (response) {
+            return response.json();
+        }).then(function (obj) {
+            console.log(obj);
+            var dropdown = document.getElementById("dropdown");
+
+            //Add the Options to the DropDownList.
+            for (var i = 0; i < obj.length; i++) {
+                var option = document.createElement("OPTION");
+
+                //Set Customer Name in Text part.
+                //option.innerHTML = obj[i].name;
+                option.innerHTML = obj[i].Name;
+
+                //Set CustomerId in Value part.
+                //option.value = obj[i].customerId;
+                option.value = obj[i].locId;
+
+                //Add the Option element to DropDownList.
+                dropdown.options.add(option);
+            }
+        }).catch(function (error) {
+            console.error('something error');
+            console.error(error);
+        });
+
+        dropdown.addEventListener('change', function () {
+            const selectedValue = dropdown.value;
+            console.log(selectedValue);
+            // You can call a function here and pass the selected value 
+        });
+
+    </script>
+</body>
+</html>
